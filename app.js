@@ -19,14 +19,14 @@ const upload = multer({ storage: storage });
 
 // MySQL connection configuration
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'shoeonlineplatform'
-    // host : 'alwaysdata.net'
-    // user : 'benedict',
-    // password : 'Hellothere88!'
-    // database : 'databaseName_created_for_alwaysdata.net'
+    // host: 'localhost',
+    // user: 'root',
+    // password: '',
+    // database: 'shoeonlineplatform'
+    host : 'mysql-benedict.alwaysdata.net',
+    user: 'benedict',
+    password: 'Hellothere88!',
+    database: 'benedict_2024'
 });
 
 connection.connect((err) => {
