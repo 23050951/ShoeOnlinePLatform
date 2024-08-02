@@ -1,0 +1,74 @@
+<h1>Product Details</h1>
+
+<!-- Display the product details -->
+<div id="product-details">
+    <h2><%= product.Name %></h2>
+    <p>Product ID: <%= product.ProductID %></p>
+    <p>Brand: <%= product.Brand %></p>
+    <p>Description: <%= product.Description %></p>
+    <p>Price: $<%= product.Price %></p>
+    <p>Size: <%= product.Size %></p>
+    <p>Quantity: <%= product.Quantity %></p>
+    <% if (product.ShoePicture) { %>
+      <img src="/images/<%= product.ShoePicture %>" alt="Product Image">
+    <% } %>
+</div>
+
+<!-- Add JavaScript code to handle filtering -->
+<script>
+  const filterForm = document.getElementById('filter-form');
+  const productList = document.getElementById('product-list');
+
+  filterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const productName = document.getElementById('productName').value.trim();
+    const brand = document.getElementById('brand').value;
+    const price = document.getElementById('price').value;
+    const search = document.getElementById('search').value.trim();
+
+    const filteredProducts = products.filter((product) => {
+      let matches = true;
+
+      if (productName) {
+        matches = matches && product.ProductName.toLowerCase().includes(productName.toLowerCase());
+      }
+
+      if (brand && brand !== '') {
+        matches = matches && product.Brand.toLowerCase() === brand.toLowerCase();
+      }
+
+      if (price) {
+        if (price === 'low-to-high') {
+          matches = matches && products.slice().sort((a, b) => a.Price - b.Price).includes(product);
+        } else if (price === 'high-to-low') {
+          matches = matches && products.slice().sort((a, b) => b.Price - a.Price).includes(product);
+        }
+      }
+
+      if (search) {
+        matches = matches && product.ProductName.toLowerCase().includes(search.toLowerCase());
+      }
+
+      return matches;
+    });
+
+    renderProductList(filteredProducts);
+});
+
+  function renderProductList(products) {
+    productList.innerHTML = '';
+    products.forEach((product) => {
+      const productHTML = `
+        <div>
+          <h2>${product.ProductName}</h2>
+          <p>Product ID: ${product.ProductID}</p>
+          <p>Brand: ${product.Brand}</p>
+          <p>Description: ${product.Description}</p>
+          <p>Price: ${product.Price}</p>
+          <!-- Add more fields as needed -->
+        </div>
+      `;
+      productList.innerHTML += productHTML;
+    });
+  }
+</script>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Ben's Kicks</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2>Update Product</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <% if (product) { %>
+                    <div class="card">
+                        <form action="/editProduct/<%= product.ProductID %>" method="POST" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label for="brand" class="form-label">Brand</label>
+                                <input type="text" class="form-control" id="brand" name="brand" value="<%= product.Brand %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="name" name="name" value="<%= product.Name %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" required><%= product.Description %></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="price" name="price" min="0" step="0.01" value="<%= product.Price %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="size" class="form-label">Size</label>
+                                <input type="text" class="form-control" id="size" name="size" value="<%= product.Size %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="0" step="1" value="<%= product.Quantity %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="currentImage" class="form-label">Current Image</label>
+                                <input type="text" class="form-control" id="currentImage" name="currentImage" value="<%= product.ShoePicture %>" readonly>
+                                <img src="/images/<%= product.ShoePicture %>" class="mt-2 img-fluid" style="max-width: 200px;" alt="Current Image">
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">New Image</label>
+                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Product</button>
+                        </form>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-warning text-center" role="alert">
+                        No product found.
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

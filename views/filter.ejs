@@ -1,0 +1,24 @@
+<!-- filter.ejs -->
+
+<form action="/products" method="get">
+    <label for="brand">Brand:</label>
+    <select id="brand" name="brand">
+      <option value="">All</option>
+      <% const brands = ['Nike', 'Adidas', 'Converse', 'Vans']; %> <!-- retrieve brands from products table -->
+      <% brands.forEach(brand => { %>
+        <option value="<%= brand %>"><%= brand %></option>
+      <% }); %>
+    </select>
+  
+    <label for="price">Price:</label>
+    <select id="price" name="price">
+      <option value="">All</option>
+      <option value="low-to-high">Low to High</option>
+      <option value="high-to-low">High to Low</option>
+    </select>
+  
+    <label for="search">Search:</label>
+    <input type="text" id="search" name="search" placeholder="Search products...">
+  
+    <button type="submit">Filter</button>
+  </form>

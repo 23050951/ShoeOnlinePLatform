@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Platform</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            background-color: #f7f7f7; /* light gray background */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .nav-link {
+            color: #337ab7; /* Bootstrap's primary blue color */
+        }
+        .nav-link:hover {
+            color: #23527c; /* darker blue on hover */
+        }
+        .card-title {
+            color: #337ab7; /* Bootstrap's primary blue color */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/" style="color: #fff;">Shoe Platform</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/addProduct">Add new product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/userProfile/<%= user.UserID %>">User Profile</a> <!-- Assuming you pass user.UserID for user-specific profile -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">Cart (<%= req.session.cart ? req.session.cart.items.length : 0 %>)</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="text-center">
+            <h2 class="mb-4" style="color: #337ab7;">Products</h2>
+        </div>
+
+        <!-- Filter search bar -->
+        <form action="/filter" method="get">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="brand">Brand:</label>
+                    <select id="brand" name="brand" class="form-control">
+                        <option value="">All</option>
+                        <% const brands = ['Nike', 'Adidas', 'Converse', 'Vans']; %> <!-- retrieve brands from products table -->
+                        <% brands.forEach(brand => { %>
+                            <option value="<%= brand %>"><%= brand %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="price">Price:</label>
+                    <select id="price" name="price" class="form-control">
+                        <option value="">All</option>
+                        <option value="low-to-high">Low to High</option>
+                        <option value="high-to-low">High to Low</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="search">Search:</label>
+                    <input type="text" id="search" name="search" placeholder="Search products by name, brand, or description..." class="form-control">
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 mt-4">
+            <% products.forEach(function(product) { %>
+                <div class="col mb-4">
+                    <div class="card h-100">
+                        <img src="/images/<%= product.ShoePicture %>" class="card-img-top" alt="<%= product.Name %>">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.Name %></h5>
+                            <p class="card-text"><b>Brand:</b> <%= product.Brand %></p>
+                            <p class="card-text"><b>Description:</b> <%= product.Description %></p>
+                            <p class="card-text"><b>Price:</b> $<%= product.Price %></p>
+                            <p class="card-text"><b>Size:</b> <%= product.Size %></p>
+                            <p class="card-text"><b>Quantity:</b> <%= product.Quantity %></p>
+                            <div class="btn-group" role="group">
+                                <a href="/product/<%= product.ProductID %>" class="btn btn-info">View</a>
+                                <a href="/editProduct/<%= product.ProductID %>" class="btn btn-primary">Edit</a>
+                                <a href="/deleteProduct/<%= product.ProductID %>" class="btn btn-danger">Delete</a>
+                            </div>
+                            <a href="/addToCart/<%= product.ProductID %>" class="btn btn-success mt-2">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
