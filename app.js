@@ -25,8 +25,8 @@ const connection = mysql.createConnection({
     // database: 'shoeonlineplatform'
     host : 'mysql-benedict.alwaysdata.net',
     user: 'benedict',
-    password: 'Hellothere88!',
-    database: 'benedict_2024'
+    password: 'HELLOTHERE88!',
+    database: 'benedict_200400'
 });
 
 connection.connect((err) => {
