@@ -63,11 +63,11 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Login route
-app.get('/login', (req, res) => {
+app.get('/', (req, res) => {
     res.render('login', { error: req.query.error });
 });
 
-app.post('/login', (req, res) => {
+app.post('/', (req, res) => {
     const { email, password } = req.body;
     const sql = 'SELECT * FROM users WHERE Email = ? AND Password = ?';
 
@@ -78,7 +78,7 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length === 0) {
-            return res.redirect('/login?error=Invalid email or password');
+            return res.redirect('/?error=Invalid email or password');
         }
 
         const user = results[0];
@@ -99,7 +99,7 @@ app.post('/register', (req, res) => {
             console.error('Database query error:', error.message);
             return res.status(500).send('Error registering user');
         }
-        res.redirect('/login');
+        res.redirect('/');
     });
 });
 
@@ -118,7 +118,7 @@ app.get('/orders', (req, res) => {
 app.get('/dashboard', (req, res) => {
     const user = req.session.user;
     if (!user) {
-        return res.redirect('/login'); // Redirect to login if user is not authenticated
+        return res.redirect('/'); // Redirect to login if user is not authenticated
     }
     res.render('dashboard', { user });
 });
@@ -269,7 +269,7 @@ app.get('/cart', (req, res) => {
     const cart = req.session.cart;
 
     if (!user) {
-        return res.redirect('/login');
+        return res.redirect('/');
     }
 
     let subtotal = 0;
@@ -342,7 +342,7 @@ app.get('/checkout', (req, res) => {
     const cart = req.session.cart;
   
     if (!user) {
-      return res.redirect('/login');
+      return res.redirect('/');
     }
   
     // Create a new order in the database
@@ -450,7 +450,7 @@ app.post('/logout', (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.redirect('/login'); // Redirect to the login page
+        res.redirect('/'); // Redirect to the login page
       }
     });
 });
